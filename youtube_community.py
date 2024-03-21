@@ -19,10 +19,24 @@ class YoutubeCommunity:
         posts_with_time = []
         if response.status_code == 200:
             m = re.findall(REGEX["YT_INITIAL_DATA"], response.text)
-            json_data = json.loads(m[0])
+            if m:
+                json_data = json.loads(m[0])
+            else:
+                print("Regular expression did not match any content in the response text.")
+                return []
 
-            tabs = json_data['contents']['twoColumnBrowseResultsRenderer']['tabs'][2]
-            posts = tabs['tabRenderer']['content']['sectionListRenderer']['contents'][0]['itemSectionRenderer']['contents']
+            tabs = json_data['contents']['twoColumnBrowseResultsRenderer']['tabs']
+            posts = []
+            for tab in tabs:
+                try:
+                    posts = tab['tabRenderer']['content']['sectionListRenderer']['contents'][0]['itemSectionRenderer'][
+                        'contents']
+                except KeyError:
+                    pass
+
+            if not posts:
+                print("No posts found.")
+                return
             for post in posts:
                 try:
                     backstagePostRenderer = post["backstagePostThreadRenderer"]["post"]['backstagePostRenderer']
@@ -33,7 +47,7 @@ class YoutubeCommunity:
                     continue
         else:
             print(f"[Can't get data from the channel_id: {self.channel_id}]")
-            exit(1)
+            print(f"Response status code: {response.status_code}")
 
         return posts_with_time
 
