@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import patch
-from youtube_community import YoutubeCommunity
+from youtubeCommunityAlarm.youtube_community import YoutubeCommunity
 
 
 class TestYoutubeCommunity(unittest.TestCase):
