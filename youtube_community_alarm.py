@@ -7,18 +7,18 @@ DEFAULT_TIME_LIMIT_IN_MINUTES = 10
 
 
 class YoutubeCommunityAlarm(YoutubeCommunity):
-    def __init__(self, channel_id, time_limit_in_minutes=None, time_limit_in_hours=None):
+    def __init__(self, channel_id, time_interval_in_minutes=None, time_interval_in_hours=None):
         super().__init__(channel_id)
-        self.time_limit_in_minutes = time_limit_in_minutes
-        self.time_limit_in_hours = time_limit_in_hours
+        self.time_interval_in_minutes = time_interval_in_minutes
+        self.time_interval_in_hours = time_interval_in_hours
 
-        if self.time_limit_in_minutes is None and self.time_limit_in_hours is None:
-            self.time_limit_in_minutes = DEFAULT_TIME_LIMIT_IN_MINUTES
+        if self.time_interval_in_minutes is None and self.time_interval_in_hours is None:
+            self.time_interval_in_minutes = DEFAULT_TIME_LIMIT_IN_MINUTES
 
 
     def scrap_and_alert_if_new_message(self):
-        criterion_value = self.time_limit_in_hours if self.time_limit_in_hours is not None else self.time_limit_in_minutes
-        criterion_regex = REGEX["HOUR_TIME_PATTERN"] if self.time_limit_in_hours is not None else REGEX["MINUTE_TIME_PATTERN"]
+        criterion_value = self.time_interval_in_hours if self.time_interval_in_hours is not None else self.time_interval_in_minutes
+        criterion_regex = REGEX["HOUR_TIME_PATTERN"] if self.time_interval_in_hours is not None else REGEX["MINUTE_TIME_PATTERN"]
 
         posts = self.get_all_posts_with_time()
         for time, text in posts:
@@ -33,15 +33,16 @@ class YoutubeCommunityAlarm(YoutubeCommunity):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    group = parser.add_mutually_exclusive_group()
-    group.add_argument('--channel_id', type=str, help='Channel ID')
+    parser.add_argument('--channel_id', type=str, help='Channel ID')
+    parser.add_argument('--time_interval_in_minutes', type=int, help='Time interval in minutes')
+    parser.add_argument('--time_interval_in_hours', type=int, help='Time Interval in hours')
 
     args = parser.parse_args()
+    kwargs = vars(args)
 
-    if args.channel_id is not None:
-        ycpa = YoutubeCommunityAlarm(channel_id=args.channel_id)
-        ycpa.scrap_and_alert_if_new_message()
-    else:
+    if not args.channel_id:
         print("Please provide a channel_id.")
         exit(1)
+
+    YoutubeCommunityAlarm(**kwargs).scrap_and_alert_if_new_message()
 

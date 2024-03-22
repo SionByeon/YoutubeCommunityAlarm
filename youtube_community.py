@@ -9,7 +9,6 @@ REGEX = {
     "MINUTE_TIME_PATTERN": r'(\d+)\s*분\s*전',
 }
 
-
 class YoutubeCommunity:
     def __init__(self, channel_id):
         self.channel_id = channel_id
@@ -50,4 +49,3 @@ class YoutubeCommunity:
             print(f"Response status code: {response.status_code}")
 
         return posts_with_time
-
