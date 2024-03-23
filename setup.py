@@ -4,7 +4,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="youtube-community-alarm", # Replace with your own username
+    name="youtube-community-alarm",
     version="0.0.1",
     author="palace",
     author_email="ufo3764@naver.com",
