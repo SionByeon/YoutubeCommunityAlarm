@@ -8,7 +8,7 @@ setuptools.setup(
     version="0.0.1",
     author="palace",
     author_email="ufo3764@naver.com",
-    description="youtube community alarm package
+    description="youtube community alarm package",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/SionByeon/YoutubeCommunityAlarm",
