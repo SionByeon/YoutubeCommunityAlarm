@@ -1,7 +1,7 @@
 import argparse
 import re
 import os
-from youtube_community import YoutubeCommunity, REGEX
+from . import YoutubeCommunity, REGEX
 
 DEFAULT_TIME_LIMIT_IN_MINUTES = 10
 
