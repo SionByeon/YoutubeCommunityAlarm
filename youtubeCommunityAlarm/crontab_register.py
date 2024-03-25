@@ -21,8 +21,8 @@ class CrontabRegister:
         self.time_limit_for_checking_in_minutes = time_limit_for_checking_in_minutes if time_limit_for_checking_in_minutes else kwargs.get("time_limit_for_checking_in_minutes")
         self.time_limit_for_checking_in_hours = time_limit_for_checking_in_hours if time_limit_for_checking_in_hours else kwargs.get("time_limit_for_checking_in_hours")
 
-        time_interval_argument = " --time_limit_for_checking_in_minutes " + self.time_limit_for_checking_in_minutes if self.time_limit_for_checking_in_minutes else "--time_limit_for_checking_in_hours " + self.time_limit_for_checking_in_hours
-        self.arguments = f"--channel_id {self.channel_id} " + time_interval_argument
+        time_limit_arguments = " --time_limit_for_checking_in_minutes " + str(self.time_limit_for_checking_in_minutes) if self.time_limit_for_checking_in_minutes else "--time_limit_for_checking_in_hours " + str(self.time_limit_for_checking_in_hours)
+        self.arguments = f"--channel_id {self.channel_id} " + time_limit_arguments
 
     def register_crontab(self):
         cron_command = f"{self.python_executable} {self.absolute_path_of_python_script} {self.arguments} >> {self.absolute_path_of_log_file} 2>&1"
