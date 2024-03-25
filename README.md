@@ -1,11 +1,11 @@
 # Youtube Community Alarm
 
-- Python3 Interface for Scheduling Crontab to Retrieve YouTube Community Posts and Send Notifications
+- Python3 interface for scheduling crontab to retrieve YouTube community posts and send notifications
 - Periodically check for new posts, and if any are found, send a notification to macOS.
 
 
 ## Installing
-To install youtube-community-alarm, simply:
+install youtube-community-alarm
 ```bash
 $ pip install youtube-community-alarm
 ```
@@ -38,8 +38,11 @@ Check if the crontab is registered by running the following command:
 ```bash
 crontab -l
 
-# Output
-# */10 * * * * /usr/bin/python3 /path/youtube_community_alarm.py --channel_id @my_channel_id /path/log.log 2>&1
+# Default
+*/10 * * * * /usr/bin/python3 /path/youtube_community_alarm.py --channel_id @my_channel_id >> /path/log.log 2>&1
+
+# Custom
+30 * * * * /usr/bin/python3 /path/youtube_community_alarm.py --channel_id @my_channel_id --time_limit_for_checking_in_minutes 30 >> /path/log.log 2>&1
 ```
 
 ## Crontab Error Case
