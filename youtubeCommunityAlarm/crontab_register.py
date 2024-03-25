@@ -9,7 +9,7 @@ class CrontabRegister:
                  time_interval_in_minutes=None,  # Default time interval is 10 minutes
                  time_interval_in_hours=None,  # Default time interval is 10 minutes
                  python_executable=sys.executable,  # Default python executable is the current python executable
-                 cron_expression="/10 * * * *",  # Default cron expression is every 10 minutes
+                 cron_expression="*/10 * * * *",  # Default cron expression is every 10 minutes
                  absolute_path_of_python_script=os.getcwd() + "/youtube_community_alarm.py",
                  absolute_path_of_log_file=os.getcwd() + "/log.log",
                  **kwargs):
