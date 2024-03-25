@@ -38,9 +38,9 @@ class YoutubeCommunity:
                 return
             for post in posts:
                 try:
-                    backstagePostRenderer = post["backstagePostThreadRenderer"]["post"]['backstagePostRenderer']
-                    text = backstagePostRenderer["contentText"]["runs"][0]["text"]
-                    time = backstagePostRenderer["publishedTimeText"]["runs"][0]["text"]
+                    back_stage_post_renderer = post["backstagePostThreadRenderer"]["post"]['backstagePostRenderer']
+                    text = back_stage_post_renderer["contentText"]["runs"][0]["text"]
+                    time = back_stage_post_renderer["publishedTimeText"]["runs"][0]["text"]
                     posts_with_time.append((time, text))
                 except KeyError:
                     continue
