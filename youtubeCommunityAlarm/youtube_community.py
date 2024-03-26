@@ -1,6 +1,9 @@
 import requests
 import json
 import re
+from retry import retry
+from requests.exceptions import SSLError
+from urllib3.exceptions import MaxRetryError
 
 BASE_URL = "https://www.youtube.com/"
 REGEX = {
@@ -13,6 +16,7 @@ class YoutubeCommunity:
     def __init__(self, channel_id):
         self.channel_id = channel_id
 
+    @retry((SSLError, MaxRetryError), tries=3, delay=2)
     def get_all_posts_with_time(self):
         response = requests.get(f"{BASE_URL + self.channel_id}/community")
         posts_with_time = []
