@@ -1,4 +1,4 @@
-# Youtube Community Alarm
+# Youtube Community Alarm ([pypi](https://pypi.org/project/youtube-community-alarm/))
 
 - Python3 interface for scheduling crontab to retrieve YouTube community posts and send notifications
 - Periodically check for new posts, and if any are found, send a notification to macOS.
