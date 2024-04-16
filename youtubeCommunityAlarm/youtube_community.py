@@ -6,15 +6,25 @@ from requests.exceptions import SSLError
 from urllib3.exceptions import MaxRetryError
 
 BASE_URL = "https://www.youtube.com/"
+COMMUNITY = "커뮤니티"
+COMMUNITY_TAB_NUMBER = -2   # 뒤에서 두번째 tab
 REGEX = {
     "YT_INITIAL_DATA": "ytInitialData = ({(?:(?:.|\n)*)?});</script>",
     "HOUR_TIME_PATTERN": r'(\d+)\s*시간\s*전',
     "MINUTE_TIME_PATTERN": r'(\d+)\s*분\s*전',
 }
 
+
 class YoutubeCommunity:
     def __init__(self, channel_id):
         self.channel_id = channel_id
+
+    def find_community_tab(self, tabs) -> dict:
+        for tab in tabs:
+            if tab['tabRenderer']['title'] == COMMUNITY:
+                return tab
+
+        return {}
 
     @retry((SSLError, MaxRetryError), tries=3, delay=2)
     def get_all_posts_with_time(self):
@@ -29,17 +39,16 @@ class YoutubeCommunity:
                 return []
 
             tabs = json_data['contents']['twoColumnBrowseResultsRenderer']['tabs']
-            posts = []
-            for tab in tabs:
-                try:
-                    posts = tab['tabRenderer']['content']['sectionListRenderer']['contents'][0]['itemSectionRenderer'][
-                        'contents']
-                except KeyError:
-                    pass
+            tab = tabs[COMMUNITY_TAB_NUMBER]
 
+            if tab['tabRenderer']['title'] != COMMUNITY:
+                tab = self.find_community_tab(tabs)
+
+            posts = tab['tabRenderer']['content']['sectionListRenderer']['contents'][0]['itemSectionRenderer']['contents']
             if not posts:
                 print("No posts found.")
                 return
+
             for post in posts:
                 try:
                     back_stage_post_renderer = post["backstagePostThreadRenderer"]["post"]['backstagePostRenderer']
