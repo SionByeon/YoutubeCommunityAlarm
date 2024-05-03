@@ -39,10 +39,10 @@ class YoutubeCommunity:
                 return []
 
             tabs = json_data['contents']['twoColumnBrowseResultsRenderer']['tabs']
-            tabs.pop()
             tab = tabs[COMMUNITY_TAB_NUMBER]
 
             if tab['tabRenderer']['title'] != COMMUNITY:
+                tabs.pop()
                 tab = self.find_community_tab(tabs)
 
             posts = tab['tabRenderer']['content']['sectionListRenderer']['contents'][0]['itemSectionRenderer']['contents']
