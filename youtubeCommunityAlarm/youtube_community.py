@@ -20,9 +20,9 @@ class YoutubeCommunity:
         self.channel_id = channel_id
 
     def find_community_tab(self, tabs) -> dict:
-        for i in range(len(tabs)-1):
-            if tabs[i]['tabRenderer']['title'] == COMMUNITY:
-                return tabs[i]
+        for tab in tabs:
+            if tab['tabRenderer']['title'] == COMMUNITY:
+                return tab
 
         return {}
 
@@ -39,6 +39,7 @@ class YoutubeCommunity:
                 return []
 
             tabs = json_data['contents']['twoColumnBrowseResultsRenderer']['tabs']
+            tabs.pop()
             tab = tabs[COMMUNITY_TAB_NUMBER]
 
             if tab['tabRenderer']['title'] != COMMUNITY:
